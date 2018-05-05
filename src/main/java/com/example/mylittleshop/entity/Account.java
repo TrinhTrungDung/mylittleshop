@@ -58,6 +58,21 @@ public class Account {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Account)) {
+            return false;
+        }
+
+        Account account = (Account) obj;
+
+        return this.username.equals(account.getUsername()) && this.name.equals(account.getName());
+    }
+
+    @Override
     public String toString()  {
         return "["+ this.name+","+ this.password+","+role+"]";
     }

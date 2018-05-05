@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<!--/* Title of this template will be passed to the head fragment along with custom links and scripts */-->
+<head >
+    <title>Shop List</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div id="emp-list">
+        Employee List
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Active</td>
+                <td>Role</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${employees.empty}">
+                <td colspan="3">No employees</td>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.getAccount().getName()}">1</td>
+                <td th:text="${employee.getAccount().isActive()}">Active ...</td>
+                <td th:text="${employee.getAccount().getRole()}">Emp_name ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="inventory-list">
+        Inventory
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>Shop ID</td>
+                <td>Barcode</td>
+                <td>Item name</td>
+                <td>Category</td>
+                <td>Price</td>
+                <td>Quantity</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${inventories.empty}">
+                <td colspan="6">EMPTY</td>
+            </tr>
+            <tr th:each="inven : ${inventories}">
+                <td th:text="${inven.id.shop.id}">1</td>
+                <td th:text="${inven.id.item.code}">Active ...</td>
+                <td th:text="${inven.id.item.name}">Emp_name ...</td>
+                <td th:text="${inven.id.item.category}">Emp_name ...</td>
+                <td th:text="${inven.id.item.price}">Emp_name ...</td>
+                <td th:text="${inven.quantity}">Emp_name ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="import-list">
+        Import History
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Barcode</td>
+                <td>Item name</td>
+                <td>Category</td>
+                <td>Imported by</td>
+                <td>Price</td>
+                <td>Shop ID</td>
+                <td>Date</td>
+                <td>Quantity</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${sales.empty}">
+                <td colspan="9">No Sales</td>
+            </tr>
+            <tr th:each="import : ${imports}">
+                <td th:text="${import.id}">1</td>
+                <td th:text="${import.item.code}">Active ...</td>
+                <td th:text="${import.item.name}">Emp_name ...</td>
+                <td th:text="${import.item.category}">Emp_name ...</td>
+                <td th:text="${import.account.username}">Emp_name ...</td>
+                <td th:text="${import.item.price}">Emp_name ...</td>
+                <td th:text="${import.shop.id}">Emp_name ...</td>
+                <td th:text="${import.imp_date}">Emp_name ...</td>
+                <td th:text="${import.quantity}">Emp_name ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="sale-list">
+        Sales
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Barcode</td>
+                <td>Item name</td>
+                <td>Category</td>
+                <td>Employee</td>
+                <td>Price</td>
+                <td>Shop ID</td>
+                <td>Date</td>
+                <td>Quantity</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${sales.empty}">
+                <td colspan="9">No Sales</td>
+            </tr>
+            <tr th:each="sale : ${sales}">
+                <td th:text="${sale.id}">1</td>
+                <td th:text="${sale.item.code}">Active ...</td>
+                <td th:text="${sale.item.name}">Emp_name ...</td>
+                <td th:text="${sale.item.category}">Emp_name ...</td>
+                <td th:text="${sale.account.username}">Emp_name ...</td>
+                <td th:text="${sale.item.price}">Emp_name ...</td>
+                <td th:text="${sale.shop.id}">Emp_name ...</td>
+                <td th:text="${sale.exp_date}">Emp_name ...</td>
+                <td th:text="${sale.quantity}">Emp_name ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -9,32 +9,38 @@ import javax.persistence.Table;
 @Table (name = "item")
 public class Item {
 
+    @Column (name = "item_name", length = 30, nullable = false)
     private String name;
+
+    @Column(name="item_category",length = 20,nullable = false)
     private String category;
-    private String code;
-    private int price;
-
-    public Item(){
-    }
-
-    public Item (String name , String category, String code, int price){
-        this.name = name;
-        this.category = category;
-        this.code = code;
-        this.price = price;
-    }
 
     @Id
     @Column(name="barcode",length = 20,nullable = false)
+    private String barcode;
+
+    @Column (name = "price",nullable = false)
+    private int price;
+
+    public Item() {
+    }
+
+    public Item (String name, String category, String barcode, int price) {
+        this.name = name;
+        this.category = category;
+        this.barcode = barcode;
+        this.price = price;
+    }
+
+
     public String getCode(){
-        return this.code;
+        return this.barcode;
     }
 
     public void setCode(String code){
-        this.code = code;
+        this.barcode = code;
     }
 
-    @Column (name = "item_name", length = 30, nullable = false)
     public String getName(){
         return this.name;
     }
@@ -43,7 +49,6 @@ public class Item {
         this.name = name;
     }
 
-    @Column(name="item_category",length = 20,nullable = false)
     public String getCategory(){
         return this.category;
     }
@@ -52,12 +57,27 @@ public class Item {
         this.category = category;
     }
 
-    @Column (name = "price",nullable = false)
     public int getPrice(){
         return this.price;
     }
 
     public void setPrice(int price){
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Item)) {
+            return false;
+        }
+
+        Item item = (Item) obj;
+
+        return this.barcode.equals(item.getCode()) && this.name.equals(item.getName())
+                && this.category.equals(item.getCategory()) && this.price == item.getPrice();
     }
 }

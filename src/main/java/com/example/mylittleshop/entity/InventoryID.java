@@ -1,5 +1,9 @@
 package com.example.mylittleshop.entity;
 
+import com.example.mylittleshop.service.IntItemService;
+import com.example.mylittleshop.service.IntShopService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -9,39 +13,53 @@ import java.util.Objects;
 
 @Embeddable
 public class InventoryID implements Serializable {
+
     @ManyToOne
     @JoinColumn(name="shop_id",nullable = false,foreignKey = @ForeignKey(name = "INVEN_SHOP_FK"))
-    private Shop shop;
+    private long shopId;
+
     @ManyToOne
     @JoinColumn(name="barcode",nullable = false,foreignKey = @ForeignKey(name = "INVEN_ITEM_FK"))
-    private Item item;
+    private String barcode;
 
-    public InventoryID(){}
+    @Autowired
+    private IntShopService shopService;
 
-    public InventoryID(Shop shop,Item item){
-        this.shop = shop;
-        this.item = item;
+    @Autowired
+    private IntItemService itemService;
+
+    public InventoryID() {}
+
+    public InventoryID(Long shopId, String barcode) {
+        if (shopService.getAllShops().contains(shopService.getShopById(shopId))
+                && itemService.getAllItems().contains(itemService.getItemByBarcode(barcode))) {
+            this.shopId = shopId;
+            this.barcode = barcode;
+        } else {
+            throw new IllegalArgumentException("Inventory ID must be combination of shop ID and item barcode");
+        }
     }
 
-    public Shop getShop() {
-        return this.shop;
+    public Long getShopId() {
+        return this.shopId;
     }
 
-    public Item getItem() {
-        return this.item;
+    public String getItemBarcode() {
+        return this.barcode;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InventoryID)) return false;
+
         InventoryID that = (InventoryID) o;
-        return Objects.equals(getShop().getId(), that.getShop().getId()) &&
-                Objects.equals(getItem().getCode(), that.getItem().getCode());
+
+        return this.shopId == that.getShopId() && this.barcode.equals(that.getItemBarcode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getShop().getId(), getItem().getCode());
+        return Objects.hash(getShopId(), getItemBarcode());
     }
 }

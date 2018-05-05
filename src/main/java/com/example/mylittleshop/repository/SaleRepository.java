@@ -1,12 +1,15 @@
 package com.example.mylittleshop.repository;
 
 import com.example.mylittleshop.entity.Sale;
-import com.example.mylittleshop.entity.Shop;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
+import java.util.Date;
 import java.util.List;
 
-public interface SaleRepository extends JpaRepository<Sale,Long> {
-
-    List<Sale> findByShop(Shop shop);
+public interface SaleRepository extends CrudRepository<Sale, Long> {
+    Sale findDistinctById(Long id);
+    List<Sale> findDistinctByShopId(Long shopId);
+    List<Sale> findDistinctByBarcode(String barcode);
+    List<Sale> findDistinctByUsername(String username);
+    List<Sale> findDistinctByExpDate(Date date);
 }

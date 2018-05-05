@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<!--/* Title of this template will be passed to the head fragment along with custom links and scripts */-->
+<head >
+    <title>Employee List</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div id="emp-list">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Active</td>
+                <td>Role</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${employees.empty}">
+                <td colspan="3">No employees</td>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.getAccount().getName()}">1</td>
+                <td th:text="${employee.getAccount().isActive()}">Active ...</td>
+                <td th:text="${employee.getAccount().getRole()}">Emp_name ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

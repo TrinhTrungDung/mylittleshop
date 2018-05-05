@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head >
+    <title>Item List</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div id="item-list">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>Barcode</td>
+                <td>Name</td>
+                <td>Category</td>
+                <td>Price</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${items.empty}">
+                <td colspan="4">Items</td>
+            </tr>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.getCode()}">1</td>
+                <td th:text="${item.getName()}">Name ...</td>
+                <td th:text="${item.getCategory()}">Category ...</td>
+                <td th:text="${item.getPrice()}">Price ...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

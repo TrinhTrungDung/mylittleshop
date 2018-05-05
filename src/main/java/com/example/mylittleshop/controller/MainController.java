@@ -51,37 +51,43 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    String changePassword(@RequestParam Map<String, String> password, Model model, Principal principal, RedirectAttributes redirectAttributes){
+    @PostMapping(value = "/changePassword")
+    String changePassword(@RequestParam Map<String, String> password,
+                          Model model,
+                          Principal principal,
+                          RedirectAttributes redirectAttributes){
         String username = principal.getName();
+
         System.out.println(password.get("old_password"));
         System.out.println(password.get("new_password"));
         System.out.println(password.get("confirm_password"));
+
         PasswordEncoder passwordEncoder =
                 PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
         String old_password = accountRepository.findByUsername(username).getPassword();
-        if(!passwordEncoder.matches(password.get("old_password"),old_password)){
-            redirectAttributes.addFlashAttribute("message",new Message("Wrong old password!",Message.Type.DANGER));
+
+        if (!passwordEncoder.matches(password.get("old_password"),old_password)) {
+            redirectAttributes.addFlashAttribute("message",
+                    new Message("Wrong old password!", Message.Type.DANGER));
+
             return "redirect:/admin";
         }
 
-        if(password.get("new_password").equals(password.get("confirm_password"))){
-
+        if (password.get("new_password").equals(password.get("confirm_password"))) {
             Account account = accountRepository.findByUsername(username);
             account.setPassword(passwordEncoder.encode(password.get("new_password")));
             accountRepository.save(account);
-            redirectAttributes.addFlashAttribute("message",new Message("Success",Message.Type.DANGER));
+            redirectAttributes.addFlashAttribute("message",
+                    new Message("Success",Message.Type.DANGER));
+
+            return "redirect:/admin";
+        } else {
+            redirectAttributes.addFlashAttribute("message",
+                    new Message("Passwords not match",Message.Type.DANGER));
+
             return "redirect:/admin";
         }
-        else{
-            redirectAttributes.addFlashAttribute("message",new Message("Passwords not match",Message.Type.DANGER));
-            return "redirect:/admin";
-        }
-
-
     }
-
-
-
 
 }
