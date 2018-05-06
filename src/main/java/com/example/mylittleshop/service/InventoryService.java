@@ -1,7 +1,6 @@
 package com.example.mylittleshop.service;
 
 import com.example.mylittleshop.entity.Inventory;
-import com.example.mylittleshop.entity.InventoryID;
 import com.example.mylittleshop.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +24,17 @@ public class InventoryService implements IntInventoryService {
 
     @Override
     public List<Inventory> getInventoriesByShopId(Long shopId) {
-        return inventoryRepository.findByShopId(shopId);
+        return inventoryRepository.findDistinctByShopId(shopId);
     }
 
     @Override
-    public Inventory getInventoryById(InventoryID id) {
-        return inventoryRepository.findById()
+    public List<Inventory> getInventoriesByBarcode(String barcode) {
+        return inventoryRepository.findDistinctByBarcode(barcode);
+    }
+
+    @Override
+    public Inventory getInventoryByShopIdAndBarcode(Long shopId, String barcode) {
+        return inventoryRepository.findDistinctByShopIdAndBarcode(shopId, barcode);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class InventoryService implements IntInventoryService {
     }
 
     @Override
-    public void deleteInventory(Long shopId) {
-        inventoryRepository.delete(getInventoriesByShopId(shopId));
+    public void deleteInventory(Long shopId, String barcode) {
+        inventoryRepository.delete(getInventoryByShopIdAndBarcode(shopId, barcode));
     }
 }

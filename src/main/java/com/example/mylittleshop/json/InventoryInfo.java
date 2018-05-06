@@ -1,25 +1,39 @@
 package com.example.mylittleshop.json;
 
-import com.example.mylittleshop.entity.InventoryID;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class InventoryInfo {
     @JsonInclude(Include.NON_NULL)
-    private InventoryID id;
+    private long shopId;
+
+    @JsonInclude(Include.NON_NULL)
+    private String barcode;
 
     @JsonInclude(Include.NON_NULL)
     private int quantity;
 
-    public InventoryID getId() {
-        return this.id;
+
+    public long getShopId() {
+        return shopId;
     }
-    public void setId(InventoryID id) {
-        this.id = id;
+
+    public void setShopId(long shopId) {
+        this.shopId = shopId;
     }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
     public int getQuantity() {
         return this.quantity;
     }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
